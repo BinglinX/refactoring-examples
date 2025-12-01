@@ -20,26 +20,29 @@ def update_boids(boids):
 
     x_coords,y_coords,x_velocities,y_velocities=boids
     
-    for i in range(len(x_coords)):
-        for j in range(len(x_coords)):
+    move_away_range = 100 # If other boids fall within this range, move away from it
+    match_speed_range  = 10000 # If other boids fall within this range, match speed with it
+
+    for boid_1 in range(len(x_coords)):
+        for boid_2 in range(len(x_coords)):
 
             # Fly towards the middle
-            x_velocities[i]=x_velocities[i]+(x_coords[j]-x_coords[i])*0.01/len(x_coords)
-            y_velocities[i]=y_velocities[i]+(y_coords[j]-y_coords[i])*0.01/len(x_coords)
+            x_velocities[boid_1]=x_velocities[boid_1]+(x_coords[boid_2]-x_coords[boid_1])*0.01/len(x_coords)
+            y_velocities[boid_1]=y_velocities[boid_1]+(y_coords[boid_2]-y_coords[boid_1])*0.01/len(x_coords)
 
             # Fly away from nearby boids
-            if (x_coords[j]-x_coords[i])**2 + (y_coords[j]-y_coords[i])**2 < 100:
-                x_velocities[i]=x_velocities[i]+(x_coords[i]-x_coords[j])
-                y_velocities[i]=y_velocities[i]+(y_coords[i]-y_coords[j])
+            if (x_coords[boid_2]-x_coords[boid_1])**2 + (y_coords[boid_2]-y_coords[boid_1])**2 < move_away_range:
+                x_velocities[boid_1]=x_velocities[boid_1]+(x_coords[boid_1]-x_coords[boid_2])
+                y_velocities[boid_1]=y_velocities[boid_1]+(y_coords[boid_1]-y_coords[boid_2])
 
             # Try to match speed with nearby boids
-            if (x_coords[j]-x_coords[i])**2 + (y_coords[j]-y_coords[i])**2 < 10000:
-                x_velocities[i]=x_velocities[i]+(x_velocities[j]-x_velocities[i])*0.125/len(x_coords)
-                y_velocities[i]=y_velocities[i]+(y_velocities[j]-y_velocities[i])*0.125/len(x_coords)
+            if (x_coords[boid_2]-x_coords[boid_1])**2 + (y_coords[boid_2]-y_coords[boid_1])**2 < match_speed_range:
+                x_velocities[boid_1]=x_velocities[boid_1]+(x_velocities[boid_2]-x_velocities[boid_1])*0.125/len(x_coords)
+                y_velocities[boid_1]=y_velocities[boid_1]+(y_velocities[boid_2]-y_velocities[boid_1])*0.125/len(x_coords)
 
         # Move according to velocities
-        x_coords[i]=x_coords[i]+x_velocities[i]
-        y_coords[i]=y_coords[i]+y_velocities[i]
+        x_coords[boid_1]=x_coords[boid_1]+x_velocities[boid_1]
+        y_coords[boid_1]=y_coords[boid_1]+y_velocities[boid_1]
 
     new_boids = (x_coords, y_coords, x_velocities, y_velocities)
 
