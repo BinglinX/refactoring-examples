@@ -7,14 +7,8 @@ This code simulates the swarming behaviour of bird-like objects ("boids").
 
 from matplotlib import pyplot as plt
 from matplotlib import animation
-import numpy as np
 import random
 
-boids_x=[random.uniform(-450,50.0) for x in range(50)]
-boids_y=[random.uniform(300.0,600.0) for x in range(50)]
-boid_x_velocities=[random.uniform(0,10.0) for x in range(50)]
-boid_y_velocities=[random.uniform(-20.0,20.0) for x in range(50)]
-boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 def update_boids(boids):
 
@@ -23,7 +17,7 @@ def update_boids(boids):
     move_away_range = 100 # If other boids fall within this range, move away from it
     match_speed_range  = 10000 # If other boids fall within this range, match speed with it
 
-    boid_indices = np.arrange(0,len(x_coords),1, dtype = int)
+    boid_indices = list(range(len(x_coords)))
 
     for boid_1 in boid_indices:
         for boid_2 in boid_indices:
@@ -51,3 +45,13 @@ def update_boids(boids):
     new_boids = (x_coords, y_coords, x_velocities, y_velocities)
 
     return(new_boids)
+
+if __name__ == "__main__":
+    boids_x=[random.uniform(-450,50.0) for x in range(50)]
+    boids_y=[random.uniform(300.0,600.0) for x in range(50)]
+    boid_x_velocities=[random.uniform(0,10.0) for x in range(50)]
+    boid_y_velocities=[random.uniform(-20.0,20.0) for x in range(50)]
+    boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
+
+    new_boids = update_boids(boids)
+    print(new_boids)
