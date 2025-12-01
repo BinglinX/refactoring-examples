@@ -28,17 +28,19 @@ def update_boids(boids):
     for boid_1 in boid_indices:
         for boid_2 in boid_indices:
 
+            boid_distance = (x_coords[boid_2]-x_coords[boid_1])**2 + (y_coords[boid_2]-y_coords[boid_1])**2 
+
             # Fly towards the middle
             x_velocities[boid_1]=x_velocities[boid_1]+(x_coords[boid_2]-x_coords[boid_1])*0.01/len(x_coords)
             y_velocities[boid_1]=y_velocities[boid_1]+(y_coords[boid_2]-y_coords[boid_1])*0.01/len(x_coords)
 
             # Fly away from nearby boids
-            if (x_coords[boid_2]-x_coords[boid_1])**2 + (y_coords[boid_2]-y_coords[boid_1])**2 < move_away_range:
+            if boid_distance < move_away_range:
                 x_velocities[boid_1]=x_velocities[boid_1]+(x_coords[boid_1]-x_coords[boid_2])
                 y_velocities[boid_1]=y_velocities[boid_1]+(y_coords[boid_1]-y_coords[boid_2])
 
             # Try to match speed with nearby boids
-            if (x_coords[boid_2]-x_coords[boid_1])**2 + (y_coords[boid_2]-y_coords[boid_1])**2 < match_speed_range:
+            if boid_distance < match_speed_range:
                 x_velocities[boid_1]=x_velocities[boid_1]+(x_velocities[boid_2]-x_velocities[boid_1])*0.125/len(x_coords)
                 y_velocities[boid_1]=y_velocities[boid_1]+(y_velocities[boid_2]-y_velocities[boid_1])*0.125/len(x_coords)
 
