@@ -18,29 +18,29 @@ boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 def update_boids(boids):
 
-    xs,ys,xvs,yvs=boids
+    x_coords,y_coords,x_velocities,y_velocities=boids
     
-    for i in range(len(xs)):
-        for j in range(len(xs)):
+    for i in range(len(x_coords)):
+        for j in range(len(x_coords)):
 
             # Fly towards the middle
-            xvs[i]=xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
-            yvs[i]=yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
+            x_velocities[i]=x_velocities[i]+(x_coords[j]-x_coords[i])*0.01/len(x_coords)
+            y_velocities[i]=y_velocities[i]+(y_coords[j]-y_coords[i])*0.01/len(x_coords)
 
             # Fly away from nearby boids
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 100:
-                xvs[i]=xvs[i]+(xs[i]-xs[j])
-                yvs[i]=yvs[i]+(ys[i]-ys[j])
+            if (x_coords[j]-x_coords[i])**2 + (y_coords[j]-y_coords[i])**2 < 100:
+                x_velocities[i]=x_velocities[i]+(x_coords[i]-x_coords[j])
+                y_velocities[i]=y_velocities[i]+(y_coords[i]-y_coords[j])
 
             # Try to match speed with nearby boids
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 10000:
-                xvs[i]=xvs[i]+(xvs[j]-xvs[i])*0.125/len(xs)
-                yvs[i]=yvs[i]+(yvs[j]-yvs[i])*0.125/len(xs)
+            if (x_coords[j]-x_coords[i])**2 + (y_coords[j]-y_coords[i])**2 < 10000:
+                x_velocities[i]=x_velocities[i]+(x_velocities[j]-x_velocities[i])*0.125/len(x_coords)
+                y_velocities[i]=y_velocities[i]+(y_velocities[j]-y_velocities[i])*0.125/len(x_coords)
 
         # Move according to velocities
-        xs[i]=xs[i]+xvs[i]
-        ys[i]=ys[i]+yvs[i]
+        x_coords[i]=x_coords[i]+x_velocities[i]
+        y_coords[i]=y_coords[i]+y_velocities[i]
 
-    new_boids = (xs, ys, xvs, yvs)
+    new_boids = (x_coords, y_coords, x_velocities, y_velocities)
 
     return(new_boids)
