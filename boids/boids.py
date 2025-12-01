@@ -7,7 +7,7 @@ This code simulates the swarming behaviour of bird-like objects ("boids").
 
 from matplotlib import pyplot as plt
 from matplotlib import animation
-
+import numpy as np
 import random
 
 boids_x=[random.uniform(-450,50.0) for x in range(50)]
@@ -23,8 +23,10 @@ def update_boids(boids):
     move_away_range = 100 # If other boids fall within this range, move away from it
     match_speed_range  = 10000 # If other boids fall within this range, match speed with it
 
-    for boid_1 in range(len(x_coords)):
-        for boid_2 in range(len(x_coords)):
+    boid_indices = np.arrange(0,len(x_coords),1, dtype = int)
+
+    for boid_1 in boid_indices:
+        for boid_2 in boid_indices:
 
             # Fly towards the middle
             x_velocities[boid_1]=x_velocities[boid_1]+(x_coords[boid_2]-x_coords[boid_1])*0.01/len(x_coords)
